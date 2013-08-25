@@ -39,7 +39,7 @@ Bookmarking a directory using its absolute path is not the only way, we can book
 
 1. Unpack the [source](https://github.com/hasanein/BookmarkerScript/archive/0.1.zip) of the Bookmarker shell script into a directory of your choice and make sure that directory is included
 in your PATH environment variable.
-2. Edit your bash profile and add the following blocks of code. (TODO: This need to be automated as part of the Bookmarker script)
+2. Edit your bash profile and add the following blocks of code.
 
 ``` shell
 # Include aliases file created by the marker script
