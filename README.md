@@ -61,3 +61,7 @@ function umark()
 	unset $*
 }
 ```
+
+# Test-Driven shell scripting
+If you are a big fan of test driven development (TDD) like myself, have a look at the marker_test script included with 
+the Bookmarker source which is my attempt to do TDD in bash scripts, how cool is that :)
