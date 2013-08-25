@@ -5,7 +5,7 @@
 # Functions defenitions
 function setup()
 {
-	TARGET_PATH="/Users/khafaji/MyProjects/LBI_PROJECTS/trunk"
+	TARGET_PATH="/Users/khafaji/MyProjects"
 	MARK_NAME="a"
 	MARKS_HOME=~/.marks
 	rm -fr ${MARKS_HOME}
@@ -51,7 +51,7 @@ function should_mark_relative_path_to_a_directory()
 	# Act
 	markDirectoryAs a ./vaa-regression
 	# Assert
-	assertThatMappingExist a "${TARGET_PATH}/vaa-regression"
+	assertThatMappingExist a "${TARGET_PATH}/MarkerScript"
 }
 
 function assertThatMappingExist()
