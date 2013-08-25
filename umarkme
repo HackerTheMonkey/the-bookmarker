@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function umarkme()
+{
+	. setScreenColors
+	MARKS_HOME=~/.marks
+	
+	if [ $# -eq 1 ]
+	then		
+		mapping=`ls ${MARKS_HOME} | grep "\b${1}\b" | wc -l`		
+		if [ ${mapping} -eq 1 ]
+		then			
+			rm -fr ${MARKS_HOME}/${1}
+			removeFunction ${1}			
+			return 0
+		else
+			return 1
+		fi
+	fi
+	
+	echo "Usage: umark {<Directory name>|<Mark alias>}"
+	return 1
+}
+
+function removeFunction()
+{
+	FUNCTION_NAME=$1
+	cat ~/.marker_functions | sed -e "/function ${FUNCTION_NAME}()/{N;N;N;d;}" > /tmp/.tmp_functions
+	cat /tmp/.tmp_functions > ~/.marker_functions	
+	rm -fr /tmp/.tmp_functions	
+}
+
+umarkme $*

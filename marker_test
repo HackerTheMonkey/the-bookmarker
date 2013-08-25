@@ -1,0 +1,128 @@
+#!/bin/bash
+
+. ~/.bash_profile
+
+# Functions defenitions
+function setup()
+{
+	TARGET_PATH="/Users/khafaji/MyProjects/LBI_PROJECTS/trunk"
+	MARK_NAME="a"
+	MARKS_HOME=~/.marks
+	rm -fr ${MARKS_HOME}
+}
+
+function should_mark_the_current_directory()
+{
+	# Arrange
+	TEST_NAME=${FUNCNAME}	
+	cd ${TARGET_PATH}	
+	# Act
+	markDirectoryAs a .
+	# Assert
+	assertThatMappingExist a ${TARGET_PATH}	
+}
+
+function should_mark_the_parent_directory()
+{
+	# Arrange
+	TEST_NAME=${FUNCNAME}	
+	cd ${TARGET_PATH}	
+	# Act
+	markDirectoryAs a ..
+	# Assert
+	assertThatMappingExist a $(cd $TARGET_PATH ; cd .. ; pwd)
+}
+
+function should_mark_an_absolute_path_to_a_directory()
+{
+	# Arrange
+	TEST_NAME=${FUNCNAME}
+	# Act
+	markDirectoryAs a ${TARGET_PATH}
+	# Assert
+	assertThatMappingExist a ${TARGET_PATH}
+}
+
+function should_mark_relative_path_to_a_directory()
+{	
+	# Arrange
+	TEST_NAME=${FUNCNAME}	
+	cd ${TARGET_PATH}	
+	# Act
+	markDirectoryAs a ./vaa-regression
+	# Assert
+	assertThatMappingExist a "${TARGET_PATH}/vaa-regression"
+}
+
+function assertThatMappingExist()
+{	
+
+	ls -l ${MARKS_HOME} 2> /dev/null  | awk '{print $11}' | grep ${2} &>/dev/null && $(test $(ls -l ~/.marks | awk '{print $9}') == "${1}") && compgen -A function | grep "\b${1}\b" &>/dev/null
+
+	if [ $? -eq 0  ]		 
+	then		
+		echo "${BLACK}${TEST_NAME} ${GREEN}SUCCESS"		
+		return 0
+	else
+		echo "${YELLOW}${TEST_NAME}: ${RED}FAIL"
+
+		if [[ "$DEBUG" ]]; then
+			echo "${YELLOW}Expected: ${BLUE}${2}"
+			echo "${YELLOW}Found: ${BLUE}$(ls -l ${MARKS_HOME} 2> /dev/null | awk '{print $11}')"
+
+			echo "${YELLOW}Expected: ${BLUE}${1}"
+			echo "${YELLOW}Found: ${BLUE}$(ls -l ${MARKS_HOME} 2> /dev/null | awk '{print $9}')"
+		fi
+		return 1
+	fi
+}
+
+function assertThatAliasCreated()
+{
+	alias ${1} 2> /dev/null | grep ${2} &> /dev/null
+	if [ $? -eq 0 ] ; then
+		return 0
+	fi
+	return 1
+}
+
+function markDirectoryAs()
+{
+	mark $2 $1 > /dev/null 2>&1
+}
+
+function before()
+{
+	doNothing
+}
+
+function after()
+{
+	rm -fr ${MARKS_HOME}/*
+}
+
+function doNothing()
+{
+	echo "" &>/dev/null
+}
+
+function runAllTests()
+{
+	for testFunction in $(echo "
+		should_mark_the_current_directory
+		should_mark_the_parent_directory
+		should_mark_an_absolute_path_to_a_directory
+		should_mark_relative_path_to_a_directory
+	")
+	do
+		setup
+		before
+		${testFunction}
+		after
+	done
+}
+# Main program starts here
+
+. setScreenColors
+runAllTests
+

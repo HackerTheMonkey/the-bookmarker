@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function marks()
+{
+	. setScreenColors
+	
+	MARKS_HOME=${HOME}/.marks
+	NUMBER_OF_MARKS=$(ls "${MARKS_HOME}" 2>/dev/null | wc -l)
+	if ( test -d "${MARKS_HOME}" && test ${NUMBER_OF_MARKS} -gt 0 )
+	then
+		
+		for DIR in $(ls ${MARKS_HOME})
+		do
+			LINK_NAME=$(ls -l ${MARKS_HOME}/${DIR} | awk '{print $9}' | tr -d '\n')		
+			ARROW=$(ls -l ${MARKS_HOME}/${DIR} | awk '{print $10}' | tr -d '\n')
+			DIR_NAME=$(ls -l ${MARKS_HOME}/${DIR} | awk '{print $11}' | tr -d '\n')
+			
+			RANDOM_NUMBER=$()
+
+			echo "${GREEN} $(basename ${LINK_NAME}) ${MAGENTA} ${ARROW} ${BLUE}${DIR_NAME}"
+		done
+
+	else
+		echo "No marks have been registered"		
+	fi
+}
+
+marks

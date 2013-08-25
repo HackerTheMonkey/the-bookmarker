@@ -1,0 +1,50 @@
+#!/bin/bash
+
+MARKS_HOME=~/.marks
+
+function markme()
+{
+	if [ $# -eq 2 ]
+	then
+		initSourceDir $1		
+		mkdir -p ${MARKS_HOME}
+		
+		cd ${MARKS_HOME}
+			ln -s ${SOURCE_DIR} ${2}			
+			createFunction ${SOURCE_DIR} ${2}			
+		cd -
+
+		return
+	fi
+	
+	echo "Usage: mark <Directory name> <Mark alias>"
+}
+
+function createFunction()
+{	
+	echo "
+
+		function ${2}()
+		{
+			cd ${1}
+		}
+
+	" >> ~/.marker_functions
+}
+
+function initSourceDir()
+{
+	if [ ${1} == "." ]
+	then
+		SOURCE_DIR=$(pwd)
+	elif [ ${1} == ".." ]
+	then
+		cd ..
+		SOURCE_DIR=$(pwd)
+	elif [ $(echo ${1} | grep '\./') ]; then
+		SOURCE_DIR="$(pwd)/$(echo ${1} | sed 's,./,,g')"
+	else
+		SOURCE_DIR=${1}
+	fi
+}
+markme $*
