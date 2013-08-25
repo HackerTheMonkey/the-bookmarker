@@ -26,8 +26,7 @@ function removeFunction()
 {
 	FUNCTION_NAME=$1
 	cat ~/.marker_functions | sed -e "/function ${FUNCTION_NAME}()/{N;N;N;d;}" > /tmp/.tmp_functions
-	cat /tmp/.tmp_functions > ~/.marker_functions	
-	rm -fr /tmp/.tmp_functions	
+	cat /tmp/.tmp_functions > ~/.marker_functions && rm -fr /tmp/.tmp_functions
 }
 
 umarkme $*
