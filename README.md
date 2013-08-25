@@ -1,4 +1,4 @@
-# The Bookmarker script
+# The Bookmarker
 
 The Bookmarker is a set of bash shell script that aim to simplify the navigation through *nix file system by acting as a 
 bookmarking tool to bookmark/unbookmark directory paths and assigning short aliases for them that are easy to remember.
