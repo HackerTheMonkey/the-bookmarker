@@ -16,9 +16,15 @@ function umarkme()
 		else
 			return 1
 		fi
-	fi
+	elif [[ $# -gt 1 ]]; then
+		for dir in $*
+		do
+			umarkme ${dir}
+		done
+		return
+	fi	
 	
-	echo "Usage: umark {<Directory name>|<Mark alias>}"
+	echo "Usage: umark {<Directory name>|<Mark alias>}, {<Directory name>|<Mark alias>}, ..."
 	return 1
 }
 
