@@ -6,14 +6,15 @@ function marks()
 	
 	MARKS_HOME=${HOME}/.marks
 	NUMBER_OF_MARKS=$(ls "${MARKS_HOME}" 2>/dev/null | wc -l)
+	ARROW="->"
+
 	if ( test -d "${MARKS_HOME}" && test ${NUMBER_OF_MARKS} -gt 0 )
 	then
 		
 		for DIR in $(ls ${MARKS_HOME})
 		do
-			LINK_NAME=$(ls -l ${MARKS_HOME}/${DIR} | awk '{print $9}' | tr -d '\n')		
-			ARROW=$(ls -l ${MARKS_HOME}/${DIR} | awk '{print $10}' | tr -d '\n')
-			DIR_NAME=$(ls -l ${MARKS_HOME}/${DIR} | awk '{print $11}' | tr -d '\n')
+			LINK_NAME=$(ls -l ${MARKS_HOME}/${DIR} | awk -F "->" '{print $1}' | awk '{print $NF}')
+			DIR_NAME=$(ls -l ${MARKS_HOME}/${DIR} | awk -F "->" '{print $2}' | awk '{print $(NF)}' | tr -d '\n')
 			
 			RANDOM_NUMBER=$()
 
