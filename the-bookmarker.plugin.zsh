@@ -1,8 +1,8 @@
 # Add the current working directory to the PATH
-export PATH=${ZSH}/plugins/bookmarker/bin:${PATH}
+export PATH=${ZSH}/plugins/the-bookmarker/bin:${PATH}
 
 # Make sure that they are executable.
-chmod u+x ${ZSH}/plugins/bookmarker/bin/*
+chmod u+x ${ZSH}/plugins/the-bookmarker/bin/*
 
 # Include aliases file created by the marker script
 if [ -f ~/.marker_functions ] ; then	
